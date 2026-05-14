@@ -1,0 +1,22 @@
+{
+  "name": "codex-remote",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "test:node": "node --test test/*.test.js",
+    "test:swift": "swift test",
+    "test:all": "npm run test:node && swift test",
+    "agent:export": "node src/agent/export-snapshot.js",
+    "app:package": "node scripts/package-local-app.js",
+    "desktop:build": "swift build",
+    "desktop:test": "swift test",
+    "ios:build": "./scripts/build-ios-app.sh",
+    "ios:open": "./scripts/open-ios-project.sh",
+    "server:start": "node src/server/start-server.js",
+    "sync:export": "node src/sync/export-sync-payload.js",
+    "sync:once": "node src/sync/export-sync-payload.js",
+    "sync:supabase": "node src/sync/push-sync-payload.js"
+  }
+}

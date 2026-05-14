@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="theme-color" content="#1d4ed8" />
+    <link rel="manifest" href="/app/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/app/icons/icon-192.svg" />
+    <link rel="stylesheet" href="/app/styles.css" />
+    <title>Codex Remote</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero-card">
+        <div>
+          <p class="eyebrow">Codex Remote</p>
+          <h1>进程控制中心</h1>
+          <p class="lede">优先在这台 Mac 上查看 Codex 运行、接管等待输入的会话、处理失败任务并推进自动化。手机连接保留为附属副控能力。</p>
+          <p class="hero-summary" id="processSummary">当前还没有加载本机进程概览。</p>
+          <div class="hero-primary-metric" id="processPrimaryMetric">
+            <span class="hero-metric-label">首要压力</span>
+            <strong class="hero-metric-value">0</strong>
+            <p class="hero-metric-copy">等待载入本机进程概览。</p>
+          </div>
+          <div class="hero-dashboard-strip" id="processDashboardStrip">
+            <div class="dashboard-pill">
+              <span>运行中</span>
+              <strong>0</strong>
+            </div>
+          </div>
+          <div class="hero-chip-row" id="processHeroChips"></div>
+        </div>
+        <div class="hero-status" id="syncStatusCard">
+          <span class="status-dot status-idle"></span>
+          <div>
+            <p class="status-label">本机状态</p>
+            <strong id="syncStatusValue">准备中</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="status-strip">
+        <article class="panel quick-card">
+          <div class="panel-head compact-head">
+            <div>
+              <p class="eyebrow">快速接管</p>
+              <h2 id="resumeTitle">还没有恢复会话</h2>
+            </div>
+            <span class="micro-label" id="resumeBadge">空闲</span>
+          </div>
+          <p class="meta-note" id="resumeMeta">先配对设备并打开一个会话，这里就会成为你的快速返回入口。</p>
+          <div class="pairing-actions compact-actions">
+            <button class="ghost-button" id="resumeOpenButton" type="button" disabled>打开上次会话</button>
+          </div>
+        </article>
+
+        <article class="panel quick-card">
+          <div class="panel-head compact-head">
+            <div>
+              <p class="eyebrow">新鲜度</p>
+              <h2 id="freshnessTitle">等待首次同步</h2>
+            </div>
+            <span class="micro-label" id="freshnessBadge">过期</span>
+          </div>
+          <p class="meta-note" id="freshnessMeta">还没有加载任何引导数据。</p>
+        </article>
+
+        <article class="panel quick-card">
+          <div class="panel-head compact-head">
+            <div>
+              <p class="eyebrow">桌面外壳</p>
+              <h2 id="installTitle">浏览器模式</h2>
+            </div>
+            <span class="micro-label" id="installBadge">网页</span>
+          </div>
+          <p class="meta-note" id="installMeta">安装这个应用后，可以获得更接近原生的启动入口和独立窗口体验。</p>
+          <div class="pairing-actions compact-actions">
+            <button class="ghost-button" id="installAppButton" type="button" disabled>安装应用</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel">
+          <div class="overview-atlas">
+            <div class="panel-head overview-panel-head">
+              <div class="overview-head-copy">
+                <p class="eyebrow">总览</p>
+                <h2 id="workspaceTitle">Local Mac</h2>
+                <p class="overview-head-summary" id="workspaceSummary">正在读取这台 Mac 的工作区和会话状态</p>
+              </div>
+              <div class="overview-head-meta">
+                <span class="micro-label" id="workspaceMeta">正在读取这台 Mac 的工作区</span>
+                <span class="health-chip neutral" id="workspaceHealthLabel">本机已就绪</span>
+              </div>
+            </div>
+            <div class="stats-grid overview-stat-grid" id="overviewStatCards"></div>
+            <div class="overview-footnote">
+              <span class="overview-footnote-label">主控摘要</span>
+              <p class="overview-footnote-copy">先看首要压力和待处理队列，再进入接管工作台继续推进会话、失败任务和自动化。</p>
+            </div>
+          </div>
+          <div class="overview-grid">
+            <div class="overview-card">
+              <div class="list-head">
+                <h3>任务焦点</h3>
+                <span id="missionMeta">空闲</span>
+              </div>
+              <div class="focus-card" id="focusCard"></div>
+            </div>
+            <div class="overview-card">
+              <div class="list-head">
+                <h3>待处理队列</h3>
+                <span id="attentionMeta">0 项</span>
+              </div>
+              <div class="activity-list" id="attentionList"></div>
+            </div>
+          </div>
+          <div class="list-block">
+            <div class="list-head">
+              <h3>进行中任务</h3>
+              <span id="taskLaneMeta">0 个任务</span>
+            </div>
+            <div class="activity-list" id="taskLane"></div>
+          </div>
+          <div class="list-block">
+            <div class="list-head">
+              <h3>自动化控制</h3>
+              <span id="automationListMeta">0 项</span>
+            </div>
+            <div class="activity-list" id="automationList"></div>
+          </div>
+          <div class="list-block">
+            <div class="list-head">
+              <h3>模板</h3>
+              <span id="templateListMeta">0 项</span>
+            </div>
+            <div class="activity-list" id="templateList"></div>
+          </div>
+          <div class="list-block">
+            <div class="list-head">
+              <h3>接管列表</h3>
+              <span id="sessionListMeta">0 项</span>
+            </div>
+            <div class="session-list" id="sessionList"></div>
+            <div class="session-list-footer" id="sessionListFooter"></div>
+          </div>
+        </article>
+
+        <article class="panel detail-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">会话详情</p>
+              <h2 id="sessionTitle">选择一个会话</h2>
+            </div>
+            <span class="micro-label" id="sessionSubtitle">尚未选择会话</span>
+          </div>
+          <div class="detail-takeover-banner" id="selectedSessionHint">当前还没有选中接管对象。</div>
+
+          <div class="detail-meta">
+            <div class="meta-chip">
+              <span>状态</span>
+              <strong id="sessionRunStatus">-</strong>
+            </div>
+            <div class="meta-chip">
+              <span>模型</span>
+              <strong id="sessionModel">-</strong>
+            </div>
+            <div class="meta-chip">
+              <span>更新时间</span>
+              <strong id="sessionUpdated">-</strong>
+            </div>
+          </div>
+
+          <div class="workbench-card">
+            <div class="list-head">
+              <h3>接管工作台</h3>
+              <span id="workbenchStatus">空闲</span>
+            </div>
+            <p class="meta-note" id="workbenchSummary">选择一个会话后，就可以从这里开始下发命令。</p>
+            <div class="workbench-priority">
+              <div class="workbench-priority-card">
+                <span class="micro-label">当前卡点</span>
+                <strong id="workbenchBlocker">还没有选中会话。</strong>
+              </div>
+              <div class="workbench-priority-card action-card">
+                <span class="micro-label">下一步动作</span>
+                <strong id="workbenchAction">选择会话</strong>
+              </div>
+            </div>
+            <div class="workbench-rail" id="workbenchRail"></div>
+          </div>
+
+          <div class="composer">
+            <label class="field">
+              <span>发送提示词</span>
+              <textarea id="promptInput" placeholder="从这里继续对话..." disabled></textarea>
+            </label>
+            <div class="pairing-actions">
+              <button class="primary-button" id="sendPromptButton" type="button" disabled>发送</button>
+              <button class="ghost-button" id="resumeRunButton" type="button" disabled>继续运行</button>
+              <button class="ghost-button" id="retryRunButton" type="button" disabled>重试</button>
+              <button class="ghost-button danger-button" id="stopRunButton" type="button" disabled>停止</button>
+              <button class="ghost-button" id="refreshSessionButton" type="button" disabled>刷新会话</button>
+            </div>
+            <p class="meta-note" id="composerMeta">选择一个会话后即可启用远程控制。</p>
+          </div>
+
+          <div class="command-spotlight">
+            <div class="list-head compact-list-head">
+              <h3>当前动作回执</h3>
+              <span class="micro-label" id="recentCommandStatus">无</span>
+            </div>
+            <p class="command-spotlight-title" id="recentCommandTitle">还没有命令回执</p>
+            <p class="meta-note" id="recentCommandMeta">选中会话后，这里会优先显示最近一条命令的回执和下一步建议。</p>
+          </div>
+
+          <div class="detail-columns">
+            <div class="list-block">
+              <div class="list-head">
+                <h3>命令历史</h3>
+              </div>
+              <div class="activity-list" id="commandList"></div>
+            </div>
+
+            <div class="list-block">
+              <div class="list-head">
+                <h3>事件时间线</h3>
+              </div>
+              <div class="activity-list" id="eventList"></div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel connection-panel">
+        <div class="panel-head compact-head">
+          <div>
+            <p class="eyebrow">手机副控</p>
+            <h2 id="connectionStatusTitle">本机主控准备中</h2>
+          </div>
+          <div class="connection-head-actions">
+            <span class="micro-label" id="connectionDeviceLabel">本地设备</span>
+            <button class="ghost-button compact-toggle-button" id="connectionToggleButton" type="button">展开连接管理</button>
+          </div>
+        </div>
+        <p class="meta-note" id="connectionSummary">当前先以 Mac 端管理会话和进程为主，手机接入可以稍后再做。</p>
+        <div class="connection-management-body collapsed" id="connectionManagementBody">
+          <div class="connection-meta-row">
+            <span class="micro-label" id="connectionAddressLabel">当前访问地址</span>
+            <span class="connection-address" id="connectionAddress">http://127.0.0.1:8793</span>
+            <button class="ghost-button" id="copyAddressButton" type="button">复制地址</button>
+          </div>
+          <div class="connection-secondary-row">
+            <div class="connection-secondary-card">
+              <span class="micro-label">本机地址</span>
+              <span class="connection-address secondary" id="localConnectionAddress">http://127.0.0.1:8793</span>
+            </div>
+            <div class="connection-guide-card">
+              <div class="list-head compact-list-head">
+                <h3 id="connectionGuideTitle">如需手机副控</h3>
+              </div>
+              <ol class="connection-steps" id="connectionSteps">
+                <li>先加载本机控制面，确认当前 Mac 中继是否可用</li>
+                <li>如果出现手机访问地址，就可以让 iPhone 作为副控端加入</li>
+                <li>如果只有本机地址，先在这台 Mac 上继续操作</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel pairing-panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">连接管理</p>
+            <h2>给手机添加副控权限</h2>
+          </div>
+          <button class="ghost-button" id="pairingBootstrapButton" type="button">加载连接信息</button>
+        </div>
+        <p class="meta-note">这部分是可选功能。桌面端已经是主控制台；只有在你想离开桌面继续查看或下发命令时，才需要给手机接入。</p>
+        <div class="pairing-qr-panel">
+          <div class="pairing-qr-copy">
+            <p class="micro-label">扫码接入</p>
+            <h3>用 iPhone 扫码加入副控端</h3>
+            <p class="meta-note" id="appPairingMeta">二维码会把手机直接带进原生 App 的接入流程。</p>
+            <div class="pairing-actions">
+              <button class="ghost-button" id="copyAppLinkButton" type="button">复制 App 配对链接</button>
+            </div>
+            <p class="meta-note" id="appPairingLink">controlplane://pair</p>
+          </div>
+          <div class="pairing-qr-frame">
+            <img id="pairingQrImage" alt="配对二维码" />
+          </div>
+        </div>
+        <label class="field">
+          <span>配对码</span>
+          <textarea id="pairingCodeInput" placeholder="把 /pairing/bootstrap 返回的 pairingCode 粘贴到这里"></textarea>
+        </label>
+        <div class="pairing-actions">
+          <button class="primary-button" id="connectButton" type="button">连接手机副控</button>
+          <button class="ghost-button" id="refreshBootstrapButton" type="button" disabled>刷新引导数据</button>
+          <button class="ghost-button" id="togglePollingButton" type="button" disabled>自动刷新已关闭</button>
+          <button class="ghost-button" id="forgetDeviceButton" type="button" disabled>忘记此设备</button>
+        </div>
+        <p class="meta-note" id="pairingMeta">还没有加载连接信息。</p>
+        <p class="error-banner hidden" id="globalError"></p>
+      </section>
+    </main>
+
+    <script type="module" src="/app/app.js"></script>
+  </body>
+</html>

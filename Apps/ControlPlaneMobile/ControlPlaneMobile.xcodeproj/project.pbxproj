@@ -1,0 +1,313 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000001 /* ControlPlaneMobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* ControlPlaneMobileApp.swift */; };
+		A10000000000000000000002 /* MobileAppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* MobileAppState.swift */; };
+		A10000000000000000000003 /* ControlPlaneRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* ControlPlaneRootView.swift */; };
+		A10000000000000000000004 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* DashboardView.swift */; };
+		A10000000000000000000005 /* PairingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* PairingView.swift */; };
+		A10000000000000000000006 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* SessionDetailView.swift */; };
+		A10000000000000000000007 /* ControlPlaneMobileClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* ControlPlaneMobileClient.swift */; };
+		A10000000000000000000008 /* ControlPlaneMobileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* ControlPlaneMobileController.swift */; };
+		A10000000000000000000009 /* ControlPlaneMobilePersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* ControlPlaneMobilePersistence.swift */; };
+		A1000000000000000000000A /* ControlPlaneModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000A /* ControlPlaneModels.swift */; };
+		A1000000000000000000000B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000B /* Assets.xcassets */; };
+		A1000000000000000000000C /* HelpCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000E /* HelpCenterView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A20000000000000000000001 /* ControlPlaneMobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPlaneMobileApp.swift; sourceTree = "<group>"; };
+		A20000000000000000000002 /* MobileAppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileAppState.swift; sourceTree = "<group>"; };
+		A20000000000000000000003 /* ControlPlaneRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPlaneRootView.swift; sourceTree = "<group>"; };
+		A20000000000000000000004 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		A20000000000000000000005 /* PairingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingView.swift; sourceTree = "<group>"; };
+		A20000000000000000000006 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
+		A20000000000000000000007 /* ControlPlaneMobileClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPlaneMobileClient.swift; sourceTree = "<group>"; };
+		A20000000000000000000008 /* ControlPlaneMobileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPlaneMobileController.swift; sourceTree = "<group>"; };
+		A20000000000000000000009 /* ControlPlaneMobilePersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPlaneMobilePersistence.swift; sourceTree = "<group>"; };
+		A2000000000000000000000A /* ControlPlaneModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPlaneModels.swift; sourceTree = "<group>"; };
+		A2000000000000000000000B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A2000000000000000000000C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A2000000000000000000000D /* ControlPlaneMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ControlPlaneMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2000000000000000000000E /* HelpCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCenterView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A30000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A40000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				A40000000000000000000002 /*  */,
+				A40000000000000000000005 /* ../../Sources/ControlPlaneMobileCore */,
+				A40000000000000000000006 /* Resources */,
+				A40000000000000000000007 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A40000000000000000000002 /*  */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000001 /* ControlPlaneMobileApp.swift */,
+				A40000000000000000000003 /* State */,
+				A40000000000000000000004 /* Views */,
+			);
+			name = "";
+			sourceTree = "<group>";
+		};
+		A40000000000000000000003 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000002 /* MobileAppState.swift */,
+			);
+			path = State;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000004 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000003 /* ControlPlaneRootView.swift */,
+				A20000000000000000000004 /* DashboardView.swift */,
+				A20000000000000000000005 /* PairingView.swift */,
+				A20000000000000000000006 /* SessionDetailView.swift */,
+				A2000000000000000000000E /* HelpCenterView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000005 /* ../../Sources/ControlPlaneMobileCore */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000007 /* ControlPlaneMobileClient.swift */,
+				A20000000000000000000008 /* ControlPlaneMobileController.swift */,
+				A20000000000000000000009 /* ControlPlaneMobilePersistence.swift */,
+				A2000000000000000000000A /* ControlPlaneModels.swift */,
+			);
+			path = ../../Sources/ControlPlaneMobileCore;
+			sourceTree = SOURCE_ROOT;
+		};
+		A40000000000000000000006 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A2000000000000000000000B /* Assets.xcassets */,
+				A2000000000000000000000C /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000007 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A2000000000000000000000D /* ControlPlaneMobile.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A50000000000000000000001 /* ControlPlaneMobile */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A60000000000000000000002 /* Build configuration list for PBXNativeTarget "ControlPlaneMobile" */;
+			buildPhases = (
+				A30000000000000000000002 /* Sources */,
+				A30000000000000000000001 /* Frameworks */,
+				A30000000000000000000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ControlPlaneMobile;
+			productName = ControlPlaneMobile;
+			productReference = A2000000000000000000000D /* ControlPlaneMobile.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A60000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 2640;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					A50000000000000000000001 = {
+						CreatedOnToolsVersion = 26.4;
+					};
+				};
+			};
+			buildConfigurationList = A60000000000000000000003 /* Build configuration list for PBXProject "ControlPlaneMobile" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A40000000000000000000001;
+			productRefGroup = A40000000000000000000007 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A50000000000000000000001 /* ControlPlaneMobile */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A30000000000000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000000000000000000000B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A30000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000001 /* ControlPlaneMobileApp.swift in Sources */,
+				A10000000000000000000002 /* MobileAppState.swift in Sources */,
+				A10000000000000000000003 /* ControlPlaneRootView.swift in Sources */,
+				A10000000000000000000004 /* DashboardView.swift in Sources */,
+				A10000000000000000000005 /* PairingView.swift in Sources */,
+				A10000000000000000000006 /* SessionDetailView.swift in Sources */,
+				A10000000000000000000007 /* ControlPlaneMobileClient.swift in Sources */,
+				A10000000000000000000008 /* ControlPlaneMobileController.swift in Sources */,
+				A10000000000000000000009 /* ControlPlaneMobilePersistence.swift in Sources */,
+				A1000000000000000000000A /* ControlPlaneModels.swift in Sources */,
+				A1000000000000000000000C /* HelpCenterView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A70000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		A70000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		A70000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Y9V4HXPUQ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codex.controlplanemobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A70000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Y9V4HXPUQ;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codex.controlplanemobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A60000000000000000000002 /* Build configuration list for PBXNativeTarget "ControlPlaneMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A70000000000000000000003 /* Debug */,
+				A70000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A60000000000000000000003 /* Build configuration list for PBXProject "ControlPlaneMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A70000000000000000000001 /* Debug */,
+				A70000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A60000000000000000000001 /* Project object */;
+}
