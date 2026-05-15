@@ -13,17 +13,17 @@ Codex Remote is a local-first companion for Codex:
 
 ## 产品预览
 
-### Mac 主控台
+### 首次引导与使用帮助
 
-![Codex Remote Mac overview](docs/assets/github/mac-overview.svg)
+![Codex Remote help center](docs/assets/github/help-real.jpg)
 
 ### iPhone / iPad 总览
 
-![Codex Remote mobile overview](docs/assets/github/mobile-overview.svg)
+![Codex Remote mobile overview](docs/assets/github/mobile-overview-real.jpg)
 
 ### iPhone / iPad 会话详情
 
-![Codex Remote mobile session detail](docs/assets/github/mobile-session.svg)
+![Codex Remote mobile session detail](docs/assets/github/mobile-session-real.jpg)
 
 ## 核心能力
 
