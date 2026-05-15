@@ -164,7 +164,7 @@ test("createPairedClientFromBootstrapBundle builds an authenticated client", () 
   const client = createPairedClientFromBootstrapBundle({
     bundle: {
       transport: {
-        baseUrl: "http://192.168.1.8:8788"
+        baseUrl: "http://192.0.2.10:8788"
       },
       pairingToken: "pair_123"
     },
@@ -173,7 +173,7 @@ test("createPairedClientFromBootstrapBundle builds an authenticated client", () 
     }
   });
 
-  assert.equal(client.baseUrl, "http://192.168.1.8:8788");
+  assert.equal(client.baseUrl, "http://192.0.2.10:8788");
   assert.equal(client.token, "pair_123");
 });
 
@@ -181,7 +181,7 @@ test("createPairedClientFromPairingCode decodes and builds an authenticated clie
   const pairingCode = Buffer.from(
     JSON.stringify({
       transport: {
-        baseUrl: "http://192.168.1.8:8788"
+        baseUrl: "http://192.0.2.10:8788"
       },
       pairingToken: "pair_123"
     })
@@ -194,7 +194,7 @@ test("createPairedClientFromPairingCode decodes and builds an authenticated clie
     }
   });
 
-  assert.equal(client.baseUrl, "http://192.168.1.8:8788");
+  assert.equal(client.baseUrl, "http://192.0.2.10:8788");
   assert.equal(client.token, "pair_123");
 });
 

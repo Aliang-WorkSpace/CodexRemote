@@ -11,11 +11,11 @@ test("buildPairingBundle produces a mobile bootstrap payload", () => {
       workspaceName: "Local Mac",
       pairingToken: "pair_123"
     },
-    publicBaseUrl: "http://192.168.1.8:8793",
+    publicBaseUrl: "http://192.0.2.10:8793",
     generatedAt: "2026-04-02T07:20:00.000Z"
   });
 
-  assert.equal(bundle.transport.baseUrl, "http://192.168.1.8:8793");
+  assert.equal(bundle.transport.baseUrl, "http://192.0.2.10:8793");
   assert.equal(bundle.pairingToken, "pair_123");
   assert.equal(bundle.capabilities.backgroundSync, true);
 });

@@ -216,7 +216,7 @@ test("returns phone-friendly transport hints when a LAN address is available", a
     },
     commandStore: new InMemoryCommandStore(),
     deviceRegistry: createStubDeviceRegistry(),
-    publicBaseUrl: "http://192.168.1.8:8793",
+    publicBaseUrl: "http://192.0.2.10:8793",
     localBaseUrl: "http://127.0.0.1:8793",
     authToken: "secret-token"
   });
@@ -233,13 +233,13 @@ test("returns phone-friendly transport hints when a LAN address is available", a
   assert.equal(response.status, 200);
   assert.equal(body.pairingStatus, "manual-bootstrap-required");
   assert.equal(body.authRequired, true);
-  assert.equal(body.transport.baseUrl, "http://192.168.1.8:8793");
-  assert.equal(body.transport.publicBaseUrl, "http://192.168.1.8:8793");
+  assert.equal(body.transport.baseUrl, "http://192.0.2.10:8793");
+  assert.equal(body.transport.publicBaseUrl, "http://192.0.2.10:8793");
   assert.equal(body.transport.localBaseUrl, "http://127.0.0.1:8793");
-  assert.equal(body.transport.phoneAccessUrl, "http://192.168.1.8:8793");
+  assert.equal(body.transport.phoneAccessUrl, "http://192.0.2.10:8793");
   assert.equal(body.transport.isLocalOnly, false);
   assert.match(body.transport.hint, /同一网络/);
-  assert.equal(body.appPairingUrl, "controlplane://pair?base=http%3A%2F%2F192.168.1.8%3A8793");
+  assert.equal(body.appPairingUrl, "controlplane://pair?base=http%3A%2F%2F192.0.2.10%3A8793");
   assert.equal(body.qrImageUrl, "/pairing/qr.png");
 });
 
@@ -258,10 +258,10 @@ test("serves a pairing qr image without requiring auth", async () => {
     },
     commandStore: new InMemoryCommandStore(),
     deviceRegistry: createStubDeviceRegistry(),
-    publicBaseUrl: "http://192.168.1.8:8793",
+    publicBaseUrl: "http://192.0.2.10:8793",
     localBaseUrl: "http://127.0.0.1:8793",
     pairingQrRenderer: async (value) => {
-      assert.equal(value, "controlplane://pair?base=http%3A%2F%2F192.168.1.8%3A8793");
+      assert.equal(value, "controlplane://pair?base=http%3A%2F%2F192.0.2.10%3A8793");
       return Buffer.from("png-bytes");
     }
   });
@@ -363,7 +363,7 @@ test("returns an authenticated pairing bootstrap bundle", async () => {
     },
     commandStore: new InMemoryCommandStore(),
     deviceRegistry: createStubDeviceRegistry(),
-    publicBaseUrl: "http://192.168.1.8:8793",
+    publicBaseUrl: "http://192.0.2.10:8793",
     authToken: "secret-token"
   });
 
@@ -380,7 +380,7 @@ test("returns an authenticated pairing bootstrap bundle", async () => {
   const body = JSON.parse(response.body);
 
   assert.equal(response.status, 200);
-  assert.equal(body.bundle.transport.baseUrl, "http://192.168.1.8:8793");
+  assert.equal(body.bundle.transport.baseUrl, "http://192.0.2.10:8793");
   assert.equal(body.bundle.pairingToken, "pair_123");
   assert.equal(typeof body.pairingCode, "string");
 });
@@ -489,7 +489,7 @@ test("returns a mobile bootstrap payload for authenticated requests", async () =
         };
       }
     },
-    publicBaseUrl: "http://192.168.1.8:8793",
+    publicBaseUrl: "http://192.0.2.10:8793",
     authToken: "secret-token"
   });
 
@@ -506,7 +506,7 @@ test("returns a mobile bootstrap payload for authenticated requests", async () =
   const body = JSON.parse(response.body);
 
   assert.equal(response.status, 200);
-  assert.equal(body.transport.baseUrl, "http://192.168.1.8:8793");
+  assert.equal(body.transport.baseUrl, "http://192.0.2.10:8793");
   assert.equal(body.sync.enabled, true);
   assert.equal(body.supportedCommands.includes("sendPrompt"), true);
 });

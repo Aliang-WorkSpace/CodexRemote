@@ -21,9 +21,9 @@ import Testing
             pairingToken: "pair_123",
             transport: TransportInfo(
                 type: "http",
-                baseURL: "http://192.168.1.8:8793",
+                baseURL: "http://192.0.2.10:8793",
                 localBaseURL: "http://127.0.0.1:8793",
-                phoneAccessURL: "http://192.168.1.8:8793",
+                phoneAccessURL: "http://192.0.2.10:8793",
                 isLocalOnly: false,
                 hint: "same wifi"
             ),
@@ -63,9 +63,9 @@ import Testing
             pairingToken: nil,
             transport: TransportInfo(
                 type: "http",
-                baseURL: "http://192.168.1.8:8793",
+                baseURL: "http://192.0.2.10:8793",
                 localBaseURL: nil,
-                phoneAccessURL: "http://192.168.1.8:8793",
+                phoneAccessURL: "http://192.0.2.10:8793",
                 isLocalOnly: false,
                 hint: nil
             ),

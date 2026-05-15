@@ -36,6 +36,8 @@ const elements = {
   pairingQrImage: document.querySelector("#pairingQrImage"),
   globalError: document.querySelector("#globalError"),
   processSummary: document.querySelector("#processSummary"),
+  processSupport: document.querySelector("#processSupport"),
+  processQuotaMeta: document.querySelector("#processQuotaMeta"),
   processPrimaryMetric: document.querySelector("#processPrimaryMetric"),
   processDashboardStrip: document.querySelector("#processDashboardStrip"),
   processHeroChips: document.querySelector("#processHeroChips"),
@@ -602,7 +604,8 @@ function renderBootstrap() {
     : "正在读取这台 Mac 的工作区";
   elements.workspaceHealthLabel.textContent = processView.healthLabel ?? "本机已就绪";
   elements.workspaceHealthLabel.className = `health-chip ${healthToneClass(processView.healthLabel)}`;
-  elements.processSummary.textContent = `${processView.summary} ${localStatusView.detail}`.trim();
+  elements.processSummary.textContent = processView.summary;
+  elements.processSupport.textContent = localStatusView.detail ?? "本机状态准备就绪后，这里会显示当前主控说明。";
   elements.processPrimaryMetric.innerHTML = `
     <span class="hero-metric-label">${escapeHtml(processView.primaryMetric.label)}</span>
     <strong class="hero-metric-value">${escapeHtml(String(processView.primaryMetric.value))}</strong>
@@ -625,7 +628,12 @@ function renderBootstrap() {
     .map((chip) => `<span class="hero-chip">${escapeHtml(chip)}</span>`)
     .join("");
   if (processView.quotaSummary) {
-    elements.processSummary.textContent = `${elements.processSummary.textContent} ${processView.quotaSummary.resetLabel}`.trim();
+    elements.processQuotaMeta.hidden = false;
+    elements.processQuotaMeta.textContent =
+      `${processView.quotaSummary.windowLabel}额度 · 剩余 ${processView.quotaSummary.cardValue}% · ${processView.quotaSummary.resetLabel}`;
+  } else {
+    elements.processQuotaMeta.hidden = true;
+    elements.processQuotaMeta.textContent = "";
   }
   elements.overviewStatCards.innerHTML = (processView.statCards ?? [])
     .map(
@@ -1352,14 +1360,24 @@ function formatRelativeTime(value) {
 
   const diffMs = time - Date.now();
   const formatter = new Intl.RelativeTimeFormat("zh-CN", { numeric: "auto" });
-  const absSeconds = Math.round(diffMs / 1000);
-  const absMinutes = Math.round(diffMs / (60 * 1000));
+  const seconds = Math.round(diffMs / 1000);
 
-  if (Math.abs(absSeconds) < 60) {
-    return formatter.format(absSeconds, "second");
+  if (Math.abs(seconds) < 60) {
+    return formatter.format(seconds, "second");
   }
 
-  return formatter.format(absMinutes, "minute");
+  const minutes = Math.round(diffMs / (60 * 1000));
+  if (Math.abs(minutes) < 60) {
+    return formatter.format(minutes, "minute");
+  }
+
+  const hours = Math.round(diffMs / (60 * 60 * 1000));
+  if (Math.abs(hours) < 24) {
+    return formatter.format(hours, "hour");
+  }
+
+  const days = Math.round(diffMs / (24 * 60 * 60 * 1000));
+  return formatter.format(days, "day");
 }
 
 function formatDateTime(value) {

@@ -458,6 +458,7 @@ public struct MobileDashboardPresentation: Equatable, Sendable {
         public let title: String
         public let remainingLabel: String
         public let resetLabel: String
+        public let detailLabel: String
         public let tone: String
     }
 
@@ -607,17 +608,21 @@ public struct MobileDashboardPresentation: Equatable, Sendable {
         let tone = remaining <= 20 ? "warning" : "success"
         let windowLabel = quotaWindowLabel(window.windowMinutes)
         let resetLabel: String
+        let detailLabel: String
         if let resetsAt = window.resetsAt,
-           let relative = relativeMinuteLabel(resetsAt) {
-            resetLabel = relative
+           let timestamp = normalizedTimestamp(resetsAt) {
+            resetLabel = absoluteMinuteLabel(timestamp)
+            detailLabel = (relativeMinuteLabel(timestamp).map { "约\($0)" } ?? "恢复时间待确认")
         } else {
             resetLabel = "恢复时间待确认"
+            detailLabel = tone == "warning" ? "请优先收敛消耗" : "当前额度状态稳定"
         }
 
         return QuotaSummary(
             title: windowLabel.map { "\($0)额度" } ?? "额度剩余",
             remainingLabel: "剩余 \(remaining)%",
             resetLabel: resetLabel,
+            detailLabel: detailLabel,
             tone: tone
         )
     }
@@ -634,34 +639,50 @@ public struct MobileDashboardPresentation: Equatable, Sendable {
         return "\(rounded)分钟"
     }
 
-    private static func relativeMinuteLabel(_ value: String) -> String? {
-        guard let timestamp = normalizedTimestamp(value) else {
-            return nil
-        }
-
+    private static func relativeMinuteLabel(_ timestamp: Double) -> String? {
         let now = Date()
         let target = Date(timeIntervalSince1970: timestamp / 1000)
         let diffMinutes = max(1, Int(((target.timeIntervalSince(now)) / 60).rounded()))
 
         if diffMinutes < 60 {
-            return "恢复于\(diffMinutes)分钟后"
+            return "\(diffMinutes)分钟后"
         }
 
         let hours = diffMinutes / 60
         let minutes = diffMinutes % 60
         if hours < 24 {
             return minutes == 0
-                ? "恢复于\(hours)小时后"
-                : "恢复于\(hours)小时\(minutes)分钟后"
+                ? "\(hours)小时后"
+                : "\(hours)小时\(minutes)分钟后"
         }
 
         let days = hours / 24
         let remainingHours = hours % 24
         if remainingHours == 0 {
-            return "恢复于\(days)天后"
+            return "\(days)天后"
         }
 
-        return "恢复于\(days)天\(remainingHours)小时后"
+        return "\(days)天\(remainingHours)小时后"
+    }
+
+    private static func absoluteMinuteLabel(_ timestamp: Double) -> String {
+        let target = Date(timeIntervalSince1970: timestamp / 1000)
+        let calendar = Calendar.current
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "zh_CN")
+
+        if calendar.isDateInToday(target) {
+            formatter.dateFormat = "HH:mm"
+            return "今天 \(formatter.string(from: target)) 恢复"
+        }
+
+        if calendar.isDateInTomorrow(target) {
+            formatter.dateFormat = "HH:mm"
+            return "明天 \(formatter.string(from: target)) 恢复"
+        }
+
+        formatter.dateFormat = "M月d日 HH:mm"
+        return "\(formatter.string(from: target)) 恢复"
     }
 
     private static func translateStatus(_ status: String) -> String {

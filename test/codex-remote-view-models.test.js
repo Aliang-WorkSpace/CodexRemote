@@ -158,6 +158,7 @@ test("buildSessionTakeoverListView formats unix-second timestamps as recent rela
 
 test("buildProcessOverviewView summarizes local process pressure before phone connectivity", () => {
   const view = buildProcessOverviewView({
+    now: Date.parse("2026-04-02T08:00:00.000Z"),
     dashboard: {
       stats: {
         sessionCount: 8,
@@ -208,6 +209,7 @@ test("buildProcessOverviewView summarizes local process pressure before phone co
   assert.equal(view.quotaSummary.cardValue, 72);
   assert.match(view.quotaSummary.summary, /5小时/);
   assert.match(view.quotaSummary.summary, /剩余 72%/);
+  assert.match(view.quotaSummary.summary, /恢复于1小时后/);
   assert.equal(view.primaryMetric.label, "待接管");
   assert.equal(view.primaryMetric.value, 1);
   assert.match(view.primaryMetric.copy, /等待你马上接手/);
@@ -535,9 +537,9 @@ test("buildConnectionStatusView prefers the phone access address before pairing"
       publicPairing: {
         pairingStatus: "manual-bootstrap-required",
         transport: {
-          publicBaseUrl: "http://192.168.1.8:8793",
+          publicBaseUrl: "http://192.0.2.10:8793",
           localBaseUrl: "http://127.0.0.1:8793",
-          phoneAccessUrl: "http://192.168.1.8:8793",
+          phoneAccessUrl: "http://192.0.2.10:8793",
           isLocalOnly: false
         }
       }
@@ -548,7 +550,7 @@ test("buildConnectionStatusView prefers the phone access address before pairing"
   });
 
   assert.equal(view.status, "手机副控待接入");
-  assert.equal(view.address, "http://192.168.1.8:8793");
+  assert.equal(view.address, "http://192.0.2.10:8793");
   assert.equal(view.addressLabel, "手机访问地址");
   assert.match(view.summary, /手机作为副控/);
   assert.equal(view.helperTitle, "如需手机副控");
@@ -597,9 +599,9 @@ test("buildConnectionStatusView exposes a compact helper summary for collapsed m
       publicPairing: {
         pairingStatus: "manual-bootstrap-required",
         transport: {
-          publicBaseUrl: "http://192.168.1.8:8793",
+          publicBaseUrl: "http://192.0.2.10:8793",
           localBaseUrl: "http://127.0.0.1:8793",
-          phoneAccessUrl: "http://192.168.1.8:8793",
+          phoneAccessUrl: "http://192.0.2.10:8793",
           isLocalOnly: false
         }
       }
@@ -610,5 +612,5 @@ test("buildConnectionStatusView exposes a compact helper summary for collapsed m
   });
 
   assert.equal(view.compactTitle, "手机副控待接入");
-  assert.match(view.compactSummary, /192\.168\.1\.8:8793/);
+  assert.match(view.compactSummary, /192\.0\.2\.10:8793/);
 });

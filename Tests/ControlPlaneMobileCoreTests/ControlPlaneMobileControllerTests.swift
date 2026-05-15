@@ -33,9 +33,9 @@ private struct FailingHTTPSession: HTTPSessioning {
           "pairingStatus": "direct-bootstrap-available",
           "transport": {
             "type": "http",
-            "baseUrl": "http://192.168.1.8:8793",
+            "baseUrl": "http://192.0.2.10:8793",
             "localBaseUrl": "http://127.0.0.1:8793",
-            "phoneAccessUrl": "http://192.168.1.8:8793",
+            "phoneAccessUrl": "http://192.0.2.10:8793",
             "isLocalOnly": false,
             "hint": "same wifi"
           }
@@ -52,9 +52,9 @@ private struct FailingHTTPSession: HTTPSessioning {
             "pairingToken": null,
             "transport": {
               "type": "http",
-              "baseUrl": "http://192.168.1.8:8793",
+              "baseUrl": "http://192.0.2.10:8793",
               "localBaseUrl": "http://127.0.0.1:8793",
-              "phoneAccessUrl": "http://192.168.1.8:8793",
+              "phoneAccessUrl": "http://192.0.2.10:8793",
               "isLocalOnly": false,
               "hint": "same wifi"
             },
@@ -79,9 +79,9 @@ private struct FailingHTTPSession: HTTPSessioning {
           },
           "transport": {
             "type": "http",
-            "baseUrl": "http://192.168.1.8:8793",
+            "baseUrl": "http://192.0.2.10:8793",
             "localBaseUrl": "http://127.0.0.1:8793",
-            "phoneAccessUrl": "http://192.168.1.8:8793",
+            "phoneAccessUrl": "http://192.0.2.10:8793",
             "isLocalOnly": false,
             "hint": "same wifi"
           },
@@ -117,10 +117,10 @@ private struct FailingHTTPSession: HTTPSessioning {
     ])
 
     let controller = ControlPlaneMobileController()
-    await controller.discover(baseURL: URL(string: "http://192.168.1.8:8793")!, session: session)
+    await controller.discover(baseURL: URL(string: "http://192.0.2.10:8793")!, session: session)
     #expect(controller.pairing?.pairingStatus == "direct-bootstrap-available")
 
-    await controller.connectDirect(baseURL: URL(string: "http://192.168.1.8:8793")!, session: session)
+    await controller.connectDirect(baseURL: URL(string: "http://192.0.2.10:8793")!, session: session)
     #expect(controller.pairing?.workspaceName == "Local Mac")
     #expect(controller.bootstrap?.dashboard.stats.sessionCount == 1)
     #expect(controller.errorMessage == nil)
@@ -140,9 +140,9 @@ private struct FailingHTTPSession: HTTPSessioning {
             "pairingToken": null,
             "transport": {
               "type": "http",
-              "baseUrl": "http://192.168.1.8:8793",
+              "baseUrl": "http://192.0.2.10:8793",
               "localBaseUrl": "http://127.0.0.1:8793",
-              "phoneAccessUrl": "http://192.168.1.8:8793",
+              "phoneAccessUrl": "http://192.0.2.10:8793",
               "isLocalOnly": false,
               "hint": "same wifi"
             },
@@ -167,9 +167,9 @@ private struct FailingHTTPSession: HTTPSessioning {
           },
           "transport": {
             "type": "http",
-            "baseUrl": "http://192.168.1.8:8793",
+            "baseUrl": "http://192.0.2.10:8793",
             "localBaseUrl": "http://127.0.0.1:8793",
-            "phoneAccessUrl": "http://192.168.1.8:8793",
+            "phoneAccessUrl": "http://192.0.2.10:8793",
             "isLocalOnly": false,
             "hint": "same wifi"
           },
@@ -194,7 +194,7 @@ private struct FailingHTTPSession: HTTPSessioning {
     ])
 
     let controller = ControlPlaneMobileController()
-    await controller.connectDirect(baseURL: URL(string: "http://192.168.1.8:8793")!, session: session)
+    await controller.connectDirect(baseURL: URL(string: "http://192.0.2.10:8793")!, session: session)
     #expect(controller.bootstrap != nil)
 
     controller.disconnect()
@@ -219,9 +219,9 @@ private struct FailingHTTPSession: HTTPSessioning {
             "pairingToken": "pair_123",
             "transport": {
               "type": "http",
-              "baseUrl": "http://172.26.242.72:8793",
+              "baseUrl": "http://198.51.100.10:8793",
               "localBaseUrl": "http://127.0.0.1:8793",
-              "phoneAccessUrl": "http://172.26.242.72:8793",
+              "phoneAccessUrl": "http://198.51.100.10:8793",
               "isLocalOnly": false,
               "hint": "same wifi"
             },
@@ -246,9 +246,9 @@ private struct FailingHTTPSession: HTTPSessioning {
           },
           "transport": {
             "type": "http",
-            "baseUrl": "http://172.26.242.72:8793",
+            "baseUrl": "http://198.51.100.10:8793",
             "localBaseUrl": "http://127.0.0.1:8793",
-            "phoneAccessUrl": "http://172.26.242.72:8793",
+            "phoneAccessUrl": "http://198.51.100.10:8793",
             "isLocalOnly": false,
             "hint": "same wifi"
           },
@@ -284,7 +284,7 @@ private struct FailingHTTPSession: HTTPSessioning {
     ])
 
     let controller = ControlPlaneMobileController()
-    await controller.connectDirect(baseURL: URL(string: "http://172.26.242.72:8793")!, session: session)
+    await controller.connectDirect(baseURL: URL(string: "http://198.51.100.10:8793")!, session: session)
 
     #expect(controller.bootstrap?.dashboard.sessions.first?.updatedAt == "1775184211")
     #expect(controller.errorMessage == nil)
@@ -295,7 +295,7 @@ private struct FailingHTTPSession: HTTPSessioning {
     let controller = ControlPlaneMobileController()
     let session = FailingHTTPSession(error: URLError(.notConnectedToInternet))
 
-    await controller.connectDirect(baseURL: URL(string: "http://172.26.242.72:8793")!, session: session)
+    await controller.connectDirect(baseURL: URL(string: "http://198.51.100.10:8793")!, session: session)
 
     #expect(controller.errorMessage == "无法连接到这台 Mac。请确认 iPhone 和 Mac 在同一个网络，并且控制台已经启动。")
 }
@@ -314,9 +314,9 @@ private struct FailingHTTPSession: HTTPSessioning {
             "pairingToken": "pair_123",
             "transport": {
               "type": "http",
-              "baseUrl": "http://172.26.242.72:8793",
+              "baseUrl": "http://198.51.100.10:8793",
               "localBaseUrl": "http://127.0.0.1:8793",
-              "phoneAccessUrl": "http://172.26.242.72:8793",
+              "phoneAccessUrl": "http://198.51.100.10:8793",
               "isLocalOnly": false,
               "hint": "same wifi"
             },
@@ -341,9 +341,9 @@ private struct FailingHTTPSession: HTTPSessioning {
           },
           "transport": {
             "type": "http",
-            "baseUrl": "http://172.26.242.72:8793",
+            "baseUrl": "http://198.51.100.10:8793",
             "localBaseUrl": "http://127.0.0.1:8793",
-            "phoneAccessUrl": "http://172.26.242.72:8793",
+            "phoneAccessUrl": "http://198.51.100.10:8793",
             "isLocalOnly": false,
             "hint": "same wifi"
           },
@@ -408,7 +408,7 @@ private struct FailingHTTPSession: HTTPSessioning {
     ])
 
     let controller = ControlPlaneMobileController()
-    await controller.connectDirect(baseURL: URL(string: "http://172.26.242.72:8793")!, session: session)
+    await controller.connectDirect(baseURL: URL(string: "http://198.51.100.10:8793")!, session: session)
     await controller.openSession("session_1")
 
     #expect(controller.selectedSession?.session.id == "session_1")

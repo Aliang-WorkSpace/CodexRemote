@@ -19,7 +19,7 @@ import Testing
             type: "http",
             baseURL: "http://127.0.0.1:8793",
             localBaseURL: "http://127.0.0.1:8793",
-            phoneAccessURL: "http://172.26.35.99:8793",
+            phoneAccessURL: "http://198.51.100.10:8793",
             isLocalOnly: false,
             hint: nil
         ),
@@ -98,8 +98,9 @@ import Testing
     #expect(presentation.quotaSummaries.count == 2)
     #expect(presentation.quotaSummaries.first?.title == "5小时额度")
     #expect(presentation.quotaSummaries.first?.remainingLabel == "剩余 72%")
-    #expect(presentation.quotaSummaries.first?.resetLabel.hasPrefix("恢复于") == true)
-    #expect(presentation.quotaSummaries.first?.resetLabel.contains("小时后") == true)
+    #expect(presentation.quotaSummaries.first?.resetLabel.contains("恢复") == true)
+    #expect(presentation.quotaSummaries.first?.detailLabel.hasPrefix("约") == true)
+    #expect(presentation.quotaSummaries.first?.detailLabel.contains("小时后") == true)
     #expect(presentation.quotaSummaries.last?.title == "7天额度")
     #expect(presentation.quotaSummaries.last?.remainingLabel == "剩余 82%")
     #expect(presentation.queue.map { $0.id } == ["session_waiting", "session_running"])
@@ -118,7 +119,7 @@ import Testing
             type: "http",
             baseURL: "http://127.0.0.1:8793",
             localBaseURL: "http://127.0.0.1:8793",
-            phoneAccessURL: "http://172.26.35.99:8793",
+            phoneAccessURL: "http://198.51.100.10:8793",
             isLocalOnly: false,
             hint: nil
         ),

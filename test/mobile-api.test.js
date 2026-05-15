@@ -116,10 +116,10 @@ test("builds a bootstrap payload for the mobile client", () => {
       enabled: true,
       lastSucceededAt: "2026-04-02T01:00:00.000Z"
     },
-    publicBaseUrl: "http://192.168.1.8:8793"
+    publicBaseUrl: "http://192.0.2.10:8793"
   });
 
-  assert.equal(payload.transport.baseUrl, "http://192.168.1.8:8793");
+  assert.equal(payload.transport.baseUrl, "http://192.0.2.10:8793");
   assert.equal(payload.sync.enabled, true);
   assert.equal(payload.supportedCommands.includes("sendPrompt"), true);
   assert.equal(payload.dashboard.stats.sessionCount, 0);

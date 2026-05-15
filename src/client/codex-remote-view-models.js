@@ -80,8 +80,7 @@ export function buildProcessOverviewView({
       activeCount > 0 ? `${activeCount} 个运行中` : "当前没有运行中的进程",
       attentionCount > 0 ? `${attentionCount} 个等待接管` : null,
       failureCount > 0 ? `${failureCount} 个异常` : null,
-      hottestSession ? `优先关注 ${hottestSession.title}` : null,
-      quotaSummary?.summary ?? null
+      hottestSession ? `优先关注 ${hottestSession.title}` : null
     ]).join("，"),
     chips: [
       `运行中 ${activeCount}`,
@@ -860,13 +859,23 @@ function formatRelativeTime(value, referenceTime = Date.now()) {
   const diffMs = time - referenceTime;
   const formatter = new Intl.RelativeTimeFormat("zh-CN", { numeric: "auto" });
   const seconds = Math.round(diffMs / 1000);
-  const minutes = Math.round(diffMs / (60 * 1000));
 
   if (Math.abs(seconds) < 60) {
     return formatter.format(seconds, "second");
   }
 
-  return formatter.format(minutes, "minute");
+  const minutes = Math.round(diffMs / (60 * 1000));
+  if (Math.abs(minutes) < 60) {
+    return formatter.format(minutes, "minute");
+  }
+
+  const hours = Math.round(diffMs / (60 * 60 * 1000));
+  if (Math.abs(hours) < 24) {
+    return formatter.format(hours, "hour");
+  }
+
+  const days = Math.round(diffMs / (24 * 60 * 60 * 1000));
+  return formatter.format(days, "day");
 }
 
 function normalizeTimestampValue(value) {

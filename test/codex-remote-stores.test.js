@@ -26,7 +26,7 @@ test("PairingStore discovers a public relay endpoint", async () => {
     })
   });
 
-  const pairing = await store.discover("http://192.168.1.8:8788");
+  const pairing = await store.discover("http://192.0.2.10:8788");
 
   assert.equal(pairing.deviceId, "device_1");
   assert.equal(store.state.requestId, "req_pairing");
@@ -94,7 +94,7 @@ test("PairingStore forwards fetch context when discovering and connecting direct
               data: {
                 bundle: {
                   transport: {
-                    baseUrl: "http://192.168.1.8:8788"
+                    baseUrl: "http://192.0.2.10:8788"
                   },
                   pairingToken: "pair_123"
                 }
@@ -108,8 +108,8 @@ test("PairingStore forwards fetch context when discovering and connecting direct
     }
   });
 
-  await store.discover("http://192.168.1.8:8788");
-  await store.connectDirect("http://192.168.1.8:8788");
+  await store.discover("http://192.0.2.10:8788");
+  await store.connectDirect("http://192.0.2.10:8788");
 
   assert.equal(calls[0].fetchImpl.name, "hostFetch");
   assert.equal(calls[0].fetchContext, sentinel);
@@ -121,7 +121,7 @@ test("PairingStore forwards fetch context when discovering and connecting direct
 test("PairingStore connects with a pairing code and stores the paired client", async () => {
   const bundle = {
     transport: {
-      baseUrl: "http://192.168.1.8:8788"
+      baseUrl: "http://192.0.2.10:8788"
     },
     pairingToken: "pair_123"
   };
@@ -159,7 +159,7 @@ test("PairingStore connects with a pairing code and stores the paired client", a
 test("PairingStore reconnects from a persisted bundle", async () => {
   const bundle = {
     transport: {
-      baseUrl: "http://192.168.1.8:8788"
+      baseUrl: "http://192.0.2.10:8788"
     },
     pairingToken: "pair_123"
   };

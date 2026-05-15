@@ -55,6 +55,16 @@ test("maps local Codex state into sessions, runs, and automations", async () => 
   );
   await fs.writeFile(path.join(promptsDir, "daily.md"), "Write a short daily update.");
   await fs.writeFile(
+    path.join(tempRoot, "session_index.jsonl"),
+    [
+      JSON.stringify({
+        id: "thread_active",
+        thread_name: "MyCodeX_APP",
+        updated_at: "2026-04-02T10:03:00.000Z"
+      })
+    ].join("\n")
+  );
+  await fs.writeFile(
     rolloutPath,
     [
       JSON.stringify({
@@ -118,16 +128,17 @@ test("maps local Codex state into sessions, runs, and automations", async () => 
 
   assert.equal(snapshot.workspace.id, "local-mac");
   assert.equal(snapshot.sessions.length, 2);
+  assert.equal(snapshot.sessions[0].title, "MyCodeX_APP");
   assert.equal(snapshot.automations.length, 1);
   assert.equal(snapshot.templates.length, 1);
   assert.equal(snapshot.quota.primary.remainingPercent, 72);
   assert.equal(snapshot.quota.secondary.remainingPercent, 0);
   assert.equal(snapshot.quota.primary.windowMinutes, 300);
   assert.deepEqual(
-    snapshot.runs.map((run) => ({ id: run.id, parentRunId: run.parentRunId, status: run.status })),
+    snapshot.runs.map((run) => ({ id: run.id, parentRunId: run.parentRunId, status: run.status, summary: run.summary })),
     [
-      { id: "thread_active", parentRunId: null, status: "waitingForInput" },
-      { id: "thread_idle", parentRunId: "thread_active", status: "idle" }
+      { id: "thread_active", parentRunId: null, status: "waitingForInput", summary: "MyCodeX_APP" },
+      { id: "thread_idle", parentRunId: "thread_active", status: "idle", summary: "Older planning session" }
     ]
   );
   assert.equal(snapshot.templates[0].id, "daily");

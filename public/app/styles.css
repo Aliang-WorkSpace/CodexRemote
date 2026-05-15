@@ -120,6 +120,34 @@ h3 {
   line-height: 1.6;
 }
 
+.hero-meta-stack {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.hero-support,
+.hero-quota-meta {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.hero-quota-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(29, 78, 216, 0.12);
+  background: rgba(255, 255, 255, 0.72);
+  color: #35507d;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68);
+}
+
 .hero-primary-metric {
   display: inline-grid;
   gap: 6px;

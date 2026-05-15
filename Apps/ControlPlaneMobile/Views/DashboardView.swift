@@ -259,7 +259,7 @@ struct DashboardView: View {
                                     .foregroundStyle(.white.opacity(0.88))
                                     .multilineTextAlignment(.trailing)
 
-                                Text(quotaSummary.tone == "warning" ? "请优先收敛消耗" : "当前额度状态稳定")
+                                Text(quotaSummary.detailLabel)
                                     .font(.caption2)
                                     .foregroundStyle(.white.opacity(0.68))
                                     .multilineTextAlignment(.trailing)

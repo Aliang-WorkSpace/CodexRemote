@@ -21,9 +21,9 @@ private struct StubHTTPSession: HTTPSessioning {
       "pairingToken": "pair_123",
       "transport": {
         "type": "http",
-        "baseUrl": "http://192.168.1.8:8793",
+        "baseUrl": "http://192.0.2.10:8793",
         "localBaseUrl": "http://127.0.0.1:8793",
-        "phoneAccessUrl": "http://192.168.1.8:8793",
+        "phoneAccessUrl": "http://192.0.2.10:8793",
         "isLocalOnly": false,
         "hint": "same wifi"
       },
@@ -41,7 +41,7 @@ private struct StubHTTPSession: HTTPSessioning {
         .replacingOccurrences(of: "=", with: "")
 
     let bundle = try ControlPlaneMobileClient.decodePairingCode(pairingCode)
-    #expect(bundle.transport.baseURL == "http://192.168.1.8:8793")
+    #expect(bundle.transport.baseURL == "http://192.0.2.10:8793")
     #expect(bundle.pairingToken == "pair_123")
 }
 
@@ -59,9 +59,9 @@ private struct StubHTTPSession: HTTPSessioning {
           },
           "transport": {
             "type": "http",
-            "baseUrl": "http://192.168.1.8:8793",
+            "baseUrl": "http://192.0.2.10:8793",
             "localBaseUrl": "http://127.0.0.1:8793",
-            "phoneAccessUrl": "http://192.168.1.8:8793",
+            "phoneAccessUrl": "http://192.0.2.10:8793",
             "isLocalOnly": false,
             "hint": "same wifi"
           },
@@ -87,7 +87,7 @@ private struct StubHTTPSession: HTTPSessioning {
     }
 
     let client = ControlPlaneMobileClient(
-        baseURL: URL(string: "http://192.168.1.8:8793")!,
+        baseURL: URL(string: "http://192.0.2.10:8793")!,
         token: "pair_123",
         session: session
     )
@@ -97,23 +97,23 @@ private struct StubHTTPSession: HTTPSessioning {
 }
 
 @Test func normalizeBaseURLInputAddsSchemeAndTrimsWhitespace() throws {
-    let url = try #require(ControlPlaneMobileClient.normalizeBaseURLInput(" 172.26.242.72:8793 "))
-    #expect(url.absoluteString == "http://172.26.242.72:8793")
+    let url = try #require(ControlPlaneMobileClient.normalizeBaseURLInput(" 198.51.100.10:8793 "))
+    #expect(url.absoluteString == "http://198.51.100.10:8793")
 }
 
 @Test func detectsLoopbackHostsForConnectionGuidance() {
     #expect(ControlPlaneMobileClient.isLoopbackHost("127.0.0.1"))
     #expect(ControlPlaneMobileClient.isLoopbackHost("localhost"))
-    #expect(!ControlPlaneMobileClient.isLoopbackHost("172.26.242.72"))
+    #expect(!ControlPlaneMobileClient.isLoopbackHost("198.51.100.10"))
 }
 
 @Test func parsesDirectPairingLinkIntoBaseURL() throws {
-    let url = try #require(URL(string: "controlplane://pair?base=http%3A%2F%2F172.26.242.72%3A8793"))
+    let url = try #require(URL(string: "controlplane://pair?base=http%3A%2F%2F198.51.100.10%3A8793"))
     let action = try #require(ControlPlaneMobileClient.parsePairingLink(url))
 
     switch action {
     case .direct(let baseURL):
-        #expect(baseURL.absoluteString == "http://172.26.242.72:8793")
+        #expect(baseURL.absoluteString == "http://198.51.100.10:8793")
     default:
         Issue.record("Expected direct connection action")
     }
@@ -132,22 +132,22 @@ private struct StubHTTPSession: HTTPSessioning {
 }
 
 @Test func parsesClipboardDirectLinkIntoAction() throws {
-    let action = try #require(ControlPlaneMobileClient.parseConnectionInput("controlplane://pair?base=http%3A%2F%2F172.26.35.99%3A8793"))
+    let action = try #require(ControlPlaneMobileClient.parseConnectionInput("controlplane://pair?base=http%3A%2F%2F198.51.100.10%3A8793"))
 
     switch action {
     case .direct(let baseURL):
-        #expect(baseURL.absoluteString == "http://172.26.35.99:8793")
+        #expect(baseURL.absoluteString == "http://198.51.100.10:8793")
     default:
         Issue.record("Expected direct connection action from clipboard payload")
     }
 }
 
 @Test func parsesClipboardBaseURLIntoAction() throws {
-    let action = try #require(ControlPlaneMobileClient.parseConnectionInput("172.26.35.99:8793"))
+    let action = try #require(ControlPlaneMobileClient.parseConnectionInput("198.51.100.10:8793"))
 
     switch action {
     case .direct(let baseURL):
-        #expect(baseURL.absoluteString == "http://172.26.35.99:8793")
+        #expect(baseURL.absoluteString == "http://198.51.100.10:8793")
     default:
         Issue.record("Expected direct connection action from base URL")
     }

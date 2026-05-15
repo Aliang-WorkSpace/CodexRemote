@@ -6,12 +6,12 @@ import Testing
         type: "http",
         baseURL: "http://127.0.0.1:8793",
         localBaseURL: "http://127.0.0.1:8793",
-        phoneAccessURL: "http://192.168.1.8:8793",
+        phoneAccessURL: "http://192.0.2.10:8793",
         isLocalOnly: false,
         hint: "same wifi"
     )
 
-    #expect(transport.preferredDisplayURL == "http://192.168.1.8:8793")
+    #expect(transport.preferredDisplayURL == "http://192.0.2.10:8793")
 }
 
 @Test func submittedCommandMapsStableChineseStatusLabels() {

@@ -41,10 +41,11 @@ export class LocalCodexAdapter {
   }
 
   async fetchSnapshot() {
-    const [threads, spawnEdges, automations] = await Promise.all([
+    const [threads, spawnEdges, automations, threadNameOverrides] = await Promise.all([
       this.#queryThreads(),
       this.#querySpawnEdges(),
-      this.#loadAutomations()
+      this.#loadAutomations(),
+      this.#loadThreadNameOverrides()
     ]);
     const templates = await this.#loadTemplates();
     const quota = await this.#loadQuotaSnapshot(threads);
@@ -60,7 +61,7 @@ export class LocalCodexAdapter {
       },
       sessions: threads.map((thread) => ({
         id: thread.id,
-        title: thread.title,
+        title: threadNameOverrides.get(thread.id) ?? thread.title,
         status: mapSessionStatus(thread, this.#now()),
         latestRunId: thread.id,
         cwd: thread.cwd,
@@ -74,7 +75,7 @@ export class LocalCodexAdapter {
         parentRunId: parentByChild.get(thread.id) ?? null,
         automationId: inferAutomationId(thread.title, automations),
         status: mapRunStatus(thread, this.#now()),
-        summary: thread.title
+        summary: threadNameOverrides.get(thread.id) ?? thread.title
       })),
       automations
       ,
@@ -213,6 +214,39 @@ export class LocalCodexAdapter {
     );
 
     return rows[0]?.process_uuid ?? null;
+  }
+
+  async #loadThreadNameOverrides() {
+    const sessionIndexPath = path.join(this.#codexHome, "session_index.jsonl");
+    let content = "";
+
+    try {
+      content = await fs.readFile(sessionIndexPath, "utf8");
+    } catch {
+      return new Map();
+    }
+
+    const overrides = new Map();
+
+    for (const line of content.split("\n")) {
+      const trimmed = line.trim();
+      if (!trimmed) {
+        continue;
+      }
+
+      try {
+        const record = JSON.parse(trimmed);
+        const threadId = typeof record.id === "string" ? record.id : null;
+        const threadName = typeof record.thread_name === "string" ? record.thread_name.trim() : "";
+        if (threadId && threadName) {
+          overrides.set(threadId, threadName);
+        }
+      } catch {
+        // Ignore malformed legacy lines and keep going with best-effort overrides.
+      }
+    }
+
+    return overrides;
   }
 
   async #loadAutomations() {
