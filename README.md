@@ -21,8 +21,6 @@ Codex Remote is a local-first companion for Codex:
 
 ![Codex Remote mobile overview](docs/assets/github/mobile-overview-real.jpg)
 
-### iPhone / iPad 会话详情
-
 ![Codex Remote mobile session detail](docs/assets/github/mobile-session-real.jpg)
 
 ## 核心能力
