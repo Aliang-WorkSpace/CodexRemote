@@ -11,6 +11,20 @@ Codex Remote is a local-first companion for Codex:
 - 在 Mac 上查看、接管和推进本机 Codex 会话
 - 在 iPhone / iPad 上随时查看总览、恢复连接、继续会话
 
+## 产品预览
+
+### Mac 主控台
+
+![Codex Remote Mac overview](docs/assets/github/mac-overview.svg)
+
+### iPhone / iPad 总览
+
+![Codex Remote mobile overview](docs/assets/github/mobile-overview.svg)
+
+### iPhone / iPad 会话详情
+
+![Codex Remote mobile session detail](docs/assets/github/mobile-session.svg)
+
 ## 核心能力
 
 ### Mac 主控台

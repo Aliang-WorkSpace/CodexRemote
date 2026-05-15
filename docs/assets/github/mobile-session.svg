@@ -1,0 +1,45 @@
+<svg width="960" height="1800" viewBox="0 0 960 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="960" y2="1800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEF5FF"/>
+      <stop offset="1" stop-color="#F8FBFF"/>
+    </linearGradient>
+    <linearGradient id="hero" x1="90" y1="170" x2="860" y2="680" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10265D"/>
+      <stop offset="0.65" stop-color="#2550D7"/>
+      <stop offset="1" stop-color="#15979A"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="1800" rx="64" fill="url(#bg)"/>
+  <rect x="36" y="36" width="888" height="1728" rx="56" fill="white"/>
+  <text x="90" y="118" fill="#7D93BB" font-size="26" font-family="Inter, Arial, sans-serif" letter-spacing="0.12em">CODEX REMOTE</text>
+  <text x="90" y="206" fill="#0F1D3D" font-size="74" font-weight="700" font-family="Inter, Arial, sans-serif">会话详情</text>
+  <rect x="90" y="248" width="780" height="270" rx="38" fill="url(#hero)"/>
+  <text x="136" y="324" fill="#DCE8FF" font-size="28" font-family="Inter, Arial, sans-serif">当前接管</text>
+  <text x="136" y="412" fill="white" font-size="64" font-weight="700" font-family="Inter, Arial, sans-serif">MyCodeX_APP</text>
+  <text x="136" y="474" fill="#E5EDFF" font-size="30" font-family="Inter, Arial, sans-serif">等待输入，可继续发送下一条提示词。</text>
+
+  <rect x="90" y="572" width="780" height="192" rx="34" fill="#FBFDFF" stroke="#DCE7F7"/>
+  <text x="128" y="634" fill="#0F1D3D" font-size="40" font-weight="700" font-family="Inter, Arial, sans-serif">最近命令回执</text>
+  <text x="128" y="692" fill="#61779E" font-size="28" font-family="Inter, Arial, sans-serif">sendPrompt · 已完成</text>
+  <text x="128" y="738" fill="#0F1D3D" font-size="32" font-family="Inter, Arial, sans-serif">已生成下一版首页总览与接管列表结构。</text>
+
+  <text x="90" y="848" fill="#0F1D3D" font-size="52" font-weight="700" font-family="Inter, Arial, sans-serif">操作区</text>
+  <rect x="90" y="888" width="780" height="168" rx="32" fill="#FBFDFF" stroke="#DCE7F7"/>
+  <rect x="128" y="930" width="206" height="82" rx="26" fill="#1E49D2"/>
+  <text x="183" y="981" fill="white" font-size="30" font-weight="700" font-family="Inter, Arial, sans-serif">继续发送</text>
+  <rect x="356" y="930" width="154" height="82" rx="26" fill="#F2F6FD"/>
+  <text x="404" y="981" fill="#1C3564" font-size="30" font-weight="700" font-family="Inter, Arial, sans-serif">重试</text>
+  <rect x="532" y="930" width="154" height="82" rx="26" fill="#FFF1E7"/>
+  <text x="580" y="981" fill="#C26D1F" font-size="30" font-weight="700" font-family="Inter, Arial, sans-serif">停止</text>
+
+  <text x="90" y="1140" fill="#0F1D3D" font-size="52" font-weight="700" font-family="Inter, Arial, sans-serif">事件时间线</text>
+  <rect x="90" y="1180" width="780" height="420" rx="32" fill="#FBFDFF" stroke="#DCE7F7"/>
+  <line x1="162" y1="1256" x2="162" y2="1528" stroke="#C9D7EE" stroke-width="4"/>
+  <circle cx="162" cy="1288" r="12" fill="#19A47B"/>
+  <text x="206" y="1296" fill="#0F1D3D" font-size="34" font-weight="700" font-family="Inter, Arial, sans-serif">会话恢复完成</text>
+  <text x="206" y="1340" fill="#6278A1" font-size="28" font-family="Inter, Arial, sans-serif">已重新连接并同步最新命令状态</text>
+  <circle cx="162" cy="1414" r="12" fill="#2C59DE"/>
+  <text x="206" y="1422" fill="#0F1D3D" font-size="34" font-weight="700" font-family="Inter, Arial, sans-serif">发送下一条提示词</text>
+  <text x="206" y="1466" fill="#6278A1" font-size="28" font-family="Inter, Arial, sans-serif">等待新结果返回</text>
+</svg>

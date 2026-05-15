@@ -1,0 +1,68 @@
+<svg width="1600" height="980" viewBox="0 0 1600 980" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEF4FF"/>
+      <stop offset="1" stop-color="#F6FBFF"/>
+    </linearGradient>
+    <linearGradient id="hero" x1="0" y1="0" x2="560" y2="560" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10224F"/>
+      <stop offset="0.65" stop-color="#2144B6"/>
+      <stop offset="1" stop-color="#159B9B"/>
+    </linearGradient>
+    <filter id="shadow" x="-20" y="-20" width="1640" height="1020" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="24" stdDeviation="28" flood-color="#8AA6D6" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="980" rx="40" fill="url(#bg)"/>
+  <g filter="url(#shadow)">
+    <rect x="36" y="36" width="1528" height="908" rx="36" fill="white"/>
+  </g>
+  <text x="78" y="92" fill="#7D93BB" font-size="24" font-family="Inter, Arial, sans-serif" letter-spacing="0.18em">CODEX REMOTE</text>
+  <text x="78" y="202" fill="#0F1D3D" font-size="92" font-weight="700" font-family="Inter, Arial, sans-serif">进程控制中心</text>
+  <text x="78" y="278" fill="#5C6F97" font-size="34" font-family="Inter, Arial, sans-serif">在 Mac 上查看 Codex 运行、接管等待输入的会话、推进自动化。</text>
+
+  <rect x="1190" y="78" width="302" height="136" rx="28" fill="#F7FAFF" stroke="#DBE6F5"/>
+  <circle cx="1242" cy="145" r="12" fill="#17A772"/>
+  <text x="1270" y="132" fill="#8094B6" font-size="24" font-family="Inter, Arial, sans-serif">本机状态</text>
+  <text x="1270" y="171" fill="#0F1D3D" font-size="42" font-weight="700" font-family="Inter, Arial, sans-serif">正在主控</text>
+
+  <rect x="78" y="338" width="304" height="164" rx="28" fill="#FBFDFF" stroke="#DCE7F7"/>
+  <text x="112" y="394" fill="#7A8FB3" font-size="24" font-family="Inter, Arial, sans-serif">会话数</text>
+  <text x="112" y="468" fill="#0F1D3D" font-size="72" font-weight="700" font-family="Inter, Arial, sans-serif">123</text>
+
+  <rect x="404" y="338" width="304" height="164" rx="28" fill="#FBFDFF" stroke="#DCE7F7"/>
+  <text x="438" y="394" fill="#7A8FB3" font-size="24" font-family="Inter, Arial, sans-serif">运行中</text>
+  <text x="438" y="468" fill="#0F1D3D" font-size="72" font-weight="700" font-family="Inter, Arial, sans-serif">2</text>
+
+  <rect x="730" y="338" width="304" height="164" rx="28" fill="#FBFDFF" stroke="#DCE7F7"/>
+  <text x="764" y="394" fill="#7A8FB3" font-size="24" font-family="Inter, Arial, sans-serif">待接管</text>
+  <text x="764" y="468" fill="#0F1D3D" font-size="72" font-weight="700" font-family="Inter, Arial, sans-serif">1</text>
+
+  <rect x="1056" y="338" width="304" height="164" rx="28" fill="#FBFDFF" stroke="#DCE7F7"/>
+  <text x="1090" y="394" fill="#7A8FB3" font-size="24" font-family="Inter, Arial, sans-serif">5小时额度</text>
+  <text x="1090" y="468" fill="#0F1D3D" font-size="62" font-weight="700" font-family="Inter, Arial, sans-serif">91%</text>
+  <text x="1090" y="498" fill="#6278A1" font-size="22" font-family="Inter, Arial, sans-serif">恢复于今天 14:30</text>
+
+  <text x="78" y="582" fill="#0F1D3D" font-size="46" font-weight="700" font-family="Inter, Arial, sans-serif">任务焦点</text>
+  <text x="582" y="582" fill="#0F1D3D" font-size="46" font-weight="700" font-family="Inter, Arial, sans-serif">待处理队列</text>
+
+  <rect x="78" y="618" width="460" height="274" rx="34" fill="url(#hero)"/>
+  <text x="118" y="686" fill="#DCE8FF" font-size="24" font-family="Inter, Arial, sans-serif">当前焦点</text>
+  <text x="118" y="758" fill="white" font-size="62" font-weight="700" font-family="Inter, Arial, sans-serif">MyCodeX_APP</text>
+  <text x="118" y="820" fill="#E5EDFF" font-size="30" font-family="Inter, Arial, sans-serif">等待输入，可继续发送下一条提示词。</text>
+  <rect x="118" y="844" width="136" height="48" rx="24" fill="#5478EA"/>
+  <text x="152" y="876" fill="white" font-size="24" font-weight="600" font-family="Inter, Arial, sans-serif">等待输入</text>
+
+  <rect x="582" y="618" width="910" height="274" rx="34" fill="#FBFDFF" stroke="#DCE7F7"/>
+  <rect x="622" y="668" width="830" height="82" rx="24" fill="white" stroke="#E0E9F7"/>
+  <text x="656" y="720" fill="#0F1D3D" font-size="40" font-weight="700" font-family="Inter, Arial, sans-serif">AI 早报飞书群推送</text>
+  <rect x="1288" y="686" width="134" height="44" rx="22" fill="#E6F6F2"/>
+  <text x="1320" y="715" fill="#167E66" font-size="24" font-weight="600" font-family="Inter, Arial, sans-serif">等待输入</text>
+  <text x="656" y="790" fill="#677C9F" font-size="28" font-family="Inter, Arial, sans-serif">gpt-5.4 · 更新于18分钟前</text>
+
+  <rect x="622" y="772" width="830" height="82" rx="24" fill="white" stroke="#E0E9F7"/>
+  <text x="656" y="824" fill="#0F1D3D" font-size="40" font-weight="700" font-family="Inter, Arial, sans-serif">Research Sync Dashboard</text>
+  <rect x="1288" y="790" width="104" height="44" rx="22" fill="#FFF0E2"/>
+  <text x="1317" y="819" fill="#C76D19" font-size="24" font-weight="600" font-family="Inter, Arial, sans-serif">排队中</text>
+  <text x="656" y="894" fill="#677C9F" font-size="28" font-family="Inter, Arial, sans-serif">gpt-5.4 · 更新于35分钟前</text>
+</svg>
