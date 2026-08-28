@@ -4,6 +4,8 @@
 
 > 当前状态：**实验性，等待原代 EOS R6 真机验证。** 工程、协议编码、EVF 解析、会话清理和界面均已实现并通过自动化测试，但维护者尚未拿到目标相机的首轮诊断日志。请先按[真机测试清单](docs/hardware-test-checklist.md)逐步验证。
 
+完整页面截图、操作流程图和本轮 UI 审查见[页面与使用流程](docs/app-flow-and-ui-review.md)。
+
 ## 功能范围
 
 - iPhone 通过 ImageCaptureCore 发现 USB 相机；

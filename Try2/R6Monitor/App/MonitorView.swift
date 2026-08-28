@@ -36,7 +36,7 @@ struct MonitorView: View {
             }
         }
         .sheet(isPresented: $viewModel.isShowingDiagnostics) {
-            ShareSheet(items: [viewModel.diagnosticReport])
+            DiagnosticsView(report: viewModel.diagnosticReport)
                 .presentationDetents([.medium, .large])
         }
     }
@@ -71,6 +71,9 @@ struct MonitorView: View {
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
         .background(.black.opacity(0.68), in: Capsule())
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("监看状态：\(viewModel.status.message)")
+        .accessibilityAddTraits(.updatesFrequently)
     }
 
     private var controls: some View {
@@ -93,6 +96,8 @@ struct MonitorView: View {
                 retryButton
             } else if case .unsupported = viewModel.status {
                 retryButton
+            } else if case .paused = viewModel.status {
+                retryButton
             }
         }
         .font(.callout.weight(.semibold))
@@ -111,12 +116,34 @@ struct MonitorView: View {
     }
 }
 
-private struct ShareSheet: UIViewControllerRepresentable {
-    let items: [Any]
+private struct DiagnosticsView: View {
+    @Environment(\.dismiss) private var dismiss
+    let report: String
 
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: items, applicationActivities: nil)
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                Text(report)
+                    .font(.system(.footnote, design: .monospaced))
+                    .foregroundStyle(.primary)
+                    .textSelection(.enabled)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+            }
+            .background(Color(uiColor: .systemGroupedBackground))
+            .navigationTitle("诊断日志")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("完成") { dismiss() }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    ShareLink(item: report) {
+                        Label("分享", systemImage: "square.and.arrow.up")
+                    }
+                }
+            }
+        }
+        .preferredColorScheme(.dark)
     }
-
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }

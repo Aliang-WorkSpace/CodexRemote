@@ -37,7 +37,7 @@ final class CanonEOSSessionTests: XCTestCase {
 
         XCTAssertEqual(transport.operations, [0x9114, 0x9115])
         XCTAssertEqual(transport.closeCount, 1)
-        XCTAssertEqual(session.state, .failed("相机拒绝了初始化命令 0x9115（响应 0x2019）"))
+        XCTAssertEqual(session.state, .failed("相机拒绝了命令 0x9115（响应 0x2019）"))
     }
 
     func testStopDisablesOutputThenModeAndClosesTransport() async throws {
@@ -80,16 +80,44 @@ final class CanonEOSSessionTests: XCTestCase {
         let session = CanonEOSSession(transport: transport)
         try await session.start()
 
-        for attempt in 1...5 {
-            do {
-                _ = try await session.nextFrame()
-                XCTFail("Expected malformed frame on attempt \(attempt)")
-            } catch {
-                XCTAssertEqual(error as? CanonEVFParserError, .jpegNotFound)
-            }
+        do {
+            _ = try await session.nextFrame()
+            XCTFail("Expected malformed frame limit failure")
+        } catch {
+            XCTAssertEqual(error as? CanonEVFParserError, .jpegNotFound)
         }
 
+        XCTAssertEqual(
+            transport.operations.filter { $0 == CanonEOS.Operation.getViewFinderData.rawValue }.count,
+            5
+        )
         XCTAssertEqual(session.state, .failed("连续 5 帧无法解析，实时取景已停止"))
+    }
+
+    func testMalformedFramesAreSkippedUntilAValidFrameArrives() async throws {
+        let transport = ScriptedPTPTransport()
+        let jpeg = Data([0xFF, 0xD8, 0x42, 0xFF, 0xD9])
+        transport.queuedDataByOperation[CanonEOS.Operation.getViewFinderData.rawValue] = [
+            Data([0x01, 0x02]),
+            block(type: 11, payload: jpeg),
+        ]
+        let session = CanonEOSSession(transport: transport)
+        try await session.start()
+
+        let frame = try await session.nextFrame()
+
+        XCTAssertEqual(frame, jpeg)
+        XCTAssertEqual(
+            transport.operations.filter { $0 == CanonEOS.Operation.getViewFinderData.rawValue }.count,
+            2
+        )
+        XCTAssertEqual(session.state, .streaming)
+    }
+
+    func testCameraResponseMessageAppliesToFrameCommandsToo() {
+        let error = CanonEOSSessionError.cameraResponse(operation: 0x9153, code: 0x2019)
+
+        XCTAssertEqual(error.userMessage, "相机拒绝了命令 0x9153（响应 0x2019）")
     }
 
     private func block(type: UInt32, payload: Data) -> Data {
@@ -105,6 +133,7 @@ final class CanonEOSSessionTests: XCTestCase {
 private final class ScriptedPTPTransport: PTPTransport {
     var responseCodes: [UInt16]
     var dataByOperation: [UInt16: Data] = [:]
+    var queuedDataByOperation: [UInt16: [Data]] = [:]
     private(set) var openCount = 0
     private(set) var closeCount = 0
     private(set) var operations: [UInt16] = []
@@ -124,14 +153,21 @@ private final class ScriptedPTPTransport: PTPTransport {
         transactionIDs.append(command.transactionID)
         outboundData.append(outData)
         let code = responseCodes.isEmpty ? PTPResponse.successCode : responseCodes.removeFirst()
-        var responseData = Data()
-        responseData.appendLittleEndian(UInt32(12))
-        responseData.appendLittleEndian(UInt16(3))
-        responseData.appendLittleEndian(code)
-        responseData.appendLittleEndian(command.transactionID)
+        var ptpResponseData = Data()
+        ptpResponseData.appendLittleEndian(UInt32(12))
+        ptpResponseData.appendLittleEndian(UInt16(3))
+        ptpResponseData.appendLittleEndian(code)
+        ptpResponseData.appendLittleEndian(command.transactionID)
+        let payloadData: Data
+        if var queue = queuedDataByOperation[command.operationCode], !queue.isEmpty {
+            payloadData = queue.removeFirst()
+            queuedDataByOperation[command.operationCode] = queue
+        } else {
+            payloadData = dataByOperation[command.operationCode] ?? Data()
+        }
         return PTPExchange(
-            response: try PTPResponse(data: responseData),
-            data: dataByOperation[command.operationCode] ?? Data()
+            response: try PTPResponse(data: ptpResponseData),
+            data: payloadData
         )
     }
 

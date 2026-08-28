@@ -9,7 +9,7 @@ enum CanonEOSSessionError: Error, Equatable {
         switch self {
         case let .cameraResponse(operation, code):
             return String(
-                format: "相机拒绝了初始化命令 0x%04X（响应 0x%04X）",
+                format: "相机拒绝了命令 0x%04X（响应 0x%04X）",
                 operation,
                 code
             )
@@ -84,18 +84,23 @@ final class CanonEOSSession {
     func nextFrame() async throws -> Data {
         guard state == .streaming else { throw CanonEOSSessionError.invalidState }
 
-        let exchange = try await sendSuccess(.getViewFinderData)
-        do {
-            let jpeg = try CanonEVFParser.extractJPEG(from: exchange.data)
-            malformedFrameCount = 0
-            return jpeg
-        } catch {
-            malformedFrameCount += 1
-            if malformedFrameCount >= 5 {
-                state = .failed("连续 5 帧无法解析，实时取景已停止")
+        while malformedFrameCount < 5 {
+            try Task.checkCancellation()
+            let exchange = try await sendSuccess(.getViewFinderData)
+            do {
+                let jpeg = try CanonEVFParser.extractJPEG(from: exchange.data)
+                malformedFrameCount = 0
+                return jpeg
+            } catch {
+                malformedFrameCount += 1
+                if malformedFrameCount >= 5 {
+                    state = .failed("连续 5 帧无法解析，实时取景已停止")
+                    throw error
+                }
             }
-            throw error
         }
+
+        throw CanonEOSSessionError.invalidState
     }
 
     func stop() async {

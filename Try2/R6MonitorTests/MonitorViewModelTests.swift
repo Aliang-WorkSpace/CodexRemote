@@ -92,6 +92,71 @@ final class MonitorViewModelTests: XCTestCase {
         XCTAssertEqual(sessions[0].stopCount, 1)
     }
 
+    func testRepeatedInactiveAndBackgroundEventsStillResumeSession() async {
+        let runtime = FakeMonitorRuntime()
+        var sessions: [FakeLiveViewSession] = []
+        let viewModel = MonitorViewModel(runtime: runtime, log: DiagnosticLog(environment: "Tests"))
+        viewModel.start()
+        runtime.emitConnection {
+            let session = FakeLiveViewSession()
+            sessions.append(session)
+            return session
+        }
+        await waitUntil { sessions.first?.startCount == 1 }
+
+        await viewModel.applicationDidEnterBackground()
+        await viewModel.applicationDidEnterBackground()
+        await viewModel.applicationDidBecomeActive()
+        await waitUntil { sessions.count == 2 && sessions[1].startCount == 1 }
+
+        XCTAssertEqual(sessions[0].stopCount, 1)
+    }
+
+    func testForegroundDoesNotRestartAfterUserStopsMonitoring() async {
+        let runtime = FakeMonitorRuntime()
+        var sessions: [FakeLiveViewSession] = []
+        let viewModel = MonitorViewModel(runtime: runtime, log: DiagnosticLog(environment: "Tests"))
+        viewModel.start()
+        runtime.emitConnection {
+            let session = FakeLiveViewSession()
+            sessions.append(session)
+            return session
+        }
+        await waitUntil { sessions.first?.startCount == 1 }
+
+        await viewModel.stop()
+        await viewModel.applicationDidBecomeActive()
+        try? await Task.sleep(nanoseconds: 50_000_000)
+
+        XCTAssertEqual(sessions.count, 1)
+        XCTAssertEqual(sessions[0].stopCount, 1)
+        XCTAssertEqual(viewModel.status, .paused)
+    }
+
+    func testRetryWithoutConnectionDoesNotRestartDiscovery() async {
+        let runtime = FakeMonitorRuntime()
+        let viewModel = MonitorViewModel(runtime: runtime, log: DiagnosticLog(environment: "Tests"))
+        viewModel.start()
+
+        await viewModel.retry()
+
+        XCTAssertEqual(runtime.startCount, 1)
+        XCTAssertEqual(viewModel.status, .disconnected)
+    }
+
+    func testUnsupportedCameraDoesNotReplaceActiveStreamingStatus() async {
+        let runtime = FakeMonitorRuntime()
+        let session = FakeLiveViewSession()
+        let viewModel = MonitorViewModel(runtime: runtime, log: DiagnosticLog(environment: "Tests"))
+        viewModel.start()
+        runtime.emitConnection(session: session)
+        await waitUntil { viewModel.status.isStreaming }
+
+        runtime.onUnsupportedCamera?("Other Camera")
+
+        XCTAssertTrue(viewModel.status.isStreaming)
+    }
+
     private var validImageData: Data {
         Data(base64Encoded: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=")!
     }

@@ -7,6 +7,12 @@ enum ImageCaptureTransportError: Error {
 
 @MainActor
 final class ImageCapturePTPTransport: PTPTransport {
+    private enum Timeout {
+        static let open: UInt64 = 10_000_000_000
+        static let send: UInt64 = 8_000_000_000
+        static let close: UInt64 = 3_000_000_000
+    }
+
     let device: ICCameraDevice
     private let log: DiagnosticLog
 
@@ -21,12 +27,16 @@ final class ImageCapturePTPTransport: PTPTransport {
             return
         }
 
-        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+        let _: Void = try await CallbackAwaiter.value(
+            operation: "Open camera session",
+            timeoutNanoseconds: Timeout.open
+        ) {
+            completion in
             device.requestOpenSession(options: nil) { error in
                 if let error {
-                    continuation.resume(throwing: error)
+                    completion(.failure(error))
                 } else {
-                    continuation.resume()
+                    completion(.success(()))
                 }
             }
         }
@@ -34,16 +44,18 @@ final class ImageCapturePTPTransport: PTPTransport {
     }
 
     func send(_ command: PTPCommand, outData: Data?) async throws -> PTPExchange {
-        let result = try await withCheckedThrowingContinuation {
-            (continuation: CheckedContinuation<(Data, Data), Error>) in
+        let result: (Data, Data) = try await CallbackAwaiter.value(
+            operation: String(format: "PTP command 0x%04X", command.operationCode),
+            timeoutNanoseconds: Timeout.send
+        ) { completion in
             device.requestSendPTPCommand(command.encoded(), outData: outData) {
                 inData,
                 ptpResponseData,
                 error in
                 if let error {
-                    continuation.resume(throwing: error)
+                    completion(.failure(error))
                 } else {
-                    continuation.resume(returning: (inData, ptpResponseData))
+                    completion(.success((inData, ptpResponseData)))
                 }
             }
         }
@@ -62,11 +74,22 @@ final class ImageCapturePTPTransport: PTPTransport {
 
     func close() async {
         guard device.hasOpenSession else { return }
-        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-            device.requestCloseSession(options: nil) { _ in
-                continuation.resume()
+        do {
+            let _: Void = try await CallbackAwaiter.value(
+                operation: "Close camera session",
+                timeoutNanoseconds: Timeout.close
+            ) { completion in
+                device.requestCloseSession(options: nil) { error in
+                    if let error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(()))
+                    }
+                }
             }
+            log.record("ImageCapture session closed")
+        } catch {
+            log.record("ImageCapture session close failed error=\(error.localizedDescription)")
         }
-        log.record("ImageCapture session closed")
     }
 }

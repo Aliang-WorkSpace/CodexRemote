@@ -4,6 +4,7 @@ import UIKit
 
 enum MonitorStatus: Equatable {
     case disconnected
+    case paused
     case unsupported(String)
     case connecting(String)
     case streaming(fps: Double)
@@ -14,6 +15,8 @@ enum MonitorStatus: Equatable {
         switch self {
         case .disconnected:
             return "打开佳能 R6，并用 USB-C 数据线连接"
+        case .paused:
+            return "监看已停止"
         case let .unsupported(name):
             return "检测到 \(name)，第一版只支持原代 EOS R6"
         case let .connecting(name):
@@ -46,10 +49,25 @@ final class MonitorViewModel: ObservableObject {
     private var activeSession: (any LiveViewSession)?
     private var frameTask: Task<Void, Never>?
     private var hasStarted = false
+    private var shouldResumeAfterBackground = false
 
     convenience init() {
         let log = DiagnosticLog()
+#if DEBUG
+        if CommandLine.arguments.contains("--demo-streaming") {
+            self.init(runtime: DemoMonitorRuntime(log: log), log: log)
+            if CommandLine.arguments.contains("--show-diagnostics") {
+                isShowingDiagnostics = true
+            }
+            return
+        }
+#endif
         self.init(runtime: ImageCaptureMonitorRuntime(log: log), log: log)
+#if DEBUG
+        if CommandLine.arguments.contains("--show-diagnostics") {
+            isShowingDiagnostics = true
+        }
+#endif
     }
 
     init(
@@ -69,7 +87,12 @@ final class MonitorViewModel: ObservableObject {
             }
         }
         runtime.onUnsupportedCamera = { [weak self] name in
-            self?.status = .unsupported(name)
+            guard let self else { return }
+            if self.activeSession == nil {
+                self.status = .unsupported(name)
+            } else {
+                self.log.record("Ignored unsupported camera while monitoring name=\(name)")
+            }
         }
         runtime.onRemoval = { [weak self] id in
             Task { @MainActor in
@@ -86,13 +109,13 @@ final class MonitorViewModel: ObservableObject {
     }
 
     func stop() async {
-        await stopCurrentSession(finalStatus: .disconnected)
+        shouldResumeAfterBackground = false
+        await stopCurrentSession(finalStatus: .paused)
     }
 
     func retry() async {
         guard let connection = currentConnection else {
             status = .disconnected
-            runtime.start()
             return
         }
         await connect(connection)
@@ -100,11 +123,15 @@ final class MonitorViewModel: ObservableObject {
 
     func applicationDidEnterBackground() async {
         log.record("Application entered background")
+        shouldResumeAfterBackground = shouldResumeAfterBackground || activeSession != nil
         await stopCurrentSession(finalStatus: .disconnected)
     }
 
     func applicationDidBecomeActive() async {
-        guard activeSession == nil, let connection = currentConnection else { return }
+        guard shouldResumeAfterBackground,
+              activeSession == nil,
+              let connection = currentConnection else { return }
+        shouldResumeAfterBackground = false
         log.record("Application became active; restarting camera session")
         await connect(connection)
     }

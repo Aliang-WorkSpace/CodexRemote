@@ -8,4 +8,8 @@ final class ProjectSmokeTests: XCTestCase {
             "打开佳能 R6，并用 USB-C 数据线连接"
         )
     }
+
+    func testPausedStatusExplainsHowToResume() {
+        XCTAssertEqual(MonitorStatus.paused.message, "监看已停止")
+    }
 }
