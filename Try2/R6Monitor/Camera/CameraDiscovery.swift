@@ -26,6 +26,11 @@ final class CameraDiscovery: NSObject, ObservableObject {
     }
 
     func start() {
+#if targetEnvironment(simulator)
+        authorization = .denied
+        log.record("Camera discovery is unavailable in the iOS Simulator")
+        return
+#else
         browser.requestControlAuthorization { [weak self] status in
             Task { @MainActor in
                 guard let self else { return }
@@ -39,6 +44,7 @@ final class CameraDiscovery: NSObject, ObservableObject {
                 }
             }
         }
+#endif
     }
 
     func stop() {

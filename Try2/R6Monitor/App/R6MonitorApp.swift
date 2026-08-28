@@ -2,9 +2,11 @@ import SwiftUI
 
 @main
 struct R6MonitorApp: App {
+    @StateObject private var viewModel = MonitorViewModel()
+
     var body: some Scene {
         WindowGroup {
-            Text("R6 Monitor")
+            MonitorView(viewModel: viewModel)
                 .preferredColorScheme(.dark)
         }
     }
