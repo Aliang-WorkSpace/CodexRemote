@@ -73,6 +73,25 @@ final class MonitorViewModelTests: XCTestCase {
         XCTAssertEqual(sessions[0].stopCount, 1)
     }
 
+    func testForegroundRestartsFreshSessionAfterBackground() async {
+        let runtime = FakeMonitorRuntime()
+        var sessions: [FakeLiveViewSession] = []
+        let viewModel = MonitorViewModel(runtime: runtime, log: DiagnosticLog(environment: "Tests"))
+        viewModel.start()
+        runtime.emitConnection {
+            let session = FakeLiveViewSession()
+            sessions.append(session)
+            return session
+        }
+        await waitUntil { sessions.first?.startCount == 1 }
+        await viewModel.applicationDidEnterBackground()
+
+        await viewModel.applicationDidBecomeActive()
+        await waitUntil { sessions.count == 2 && sessions[1].startCount == 1 }
+
+        XCTAssertEqual(sessions[0].stopCount, 1)
+    }
+
     private var validImageData: Data {
         Data(base64Encoded: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=")!
     }

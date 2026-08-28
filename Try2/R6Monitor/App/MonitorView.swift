@@ -29,7 +29,9 @@ struct MonitorView: View {
         .foregroundStyle(.white)
         .onAppear { viewModel.start() }
         .onChange(of: scenePhase) { _, phase in
-            if phase != .active {
+            if phase == .active {
+                Task { await viewModel.applicationDidBecomeActive() }
+            } else {
                 Task { await viewModel.applicationDidEnterBackground() }
             }
         }

@@ -103,6 +103,12 @@ final class MonitorViewModel: ObservableObject {
         await stopCurrentSession(finalStatus: .disconnected)
     }
 
+    func applicationDidBecomeActive() async {
+        guard activeSession == nil, let connection = currentConnection else { return }
+        log.record("Application became active; restarting camera session")
+        await connect(connection)
+    }
+
     var diagnosticReport: String { log.textReport }
 
     private func connect(_ connection: CameraConnection) async {
